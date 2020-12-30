@@ -1,7 +1,7 @@
-import { sayHello } from "../index";
+// import { sayHello } from "../src/index";
 
-describe("index", () => {
-  test("should say heelo", () => {
-    expect(sayHello()).toBe("Hello");
-  });
-});
+// describe("main", () => {
+//   test("should say heelo", () => {
+//     expect(sayHello()).toBe("Hello");
+//   });
+// });
