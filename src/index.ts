@@ -19,7 +19,7 @@ export default async function execute(
   console.log(`Found book: ${JSON.stringify(book)}`);
 
   console.info(`Publish latest read book`);
-  publisher.publish(book);
+  await publisher.publish(book);
   console.info("Publish done");
 
   process.exit();

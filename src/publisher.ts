@@ -35,6 +35,6 @@ export class Gist implements Publisher {
 
     const gist = await getGist();
     const filename = Object.keys(gist.data.files!)[0];
-    udpateGist(filename);
+    await udpateGist(filename);
   }
 }
