@@ -24,7 +24,7 @@ export class PuppeteerParser implements Parser {
    * @param url
    */
   private async scraping(url: string): Promise<[string, string] | undefined> {
-    const browser = await launch({ executablePath: "/usr/local/bin/chromium" });
+    const browser = await launch({ args: ["--no-sandbox"] });
 
     const page = await browser.newPage();
     try {
