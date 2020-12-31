@@ -1,13 +1,15 @@
 import { Booklog, BookManager } from "./bookManager";
 import { Parser, PuppeteerParser } from "./parser";
 import { Gist, Publisher } from "./publisher";
+import { Book } from "./book";
 
-export default function main(
+export default async function main(
   bookManager: BookManager,
   parser: Parser,
   publisher: Publisher
 ) {
-  const book: Book = bookManager.find(parser);
+  const book: Book = await bookManager.find(parser);
+
   publisher.publish(book);
 }
 
