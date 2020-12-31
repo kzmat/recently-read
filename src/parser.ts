@@ -11,7 +11,10 @@ export class PuppeteerParser implements Parser {
    * @param url
    */
   async parse(url: string): Promise<Book> {
-    const [bookAttribute, authorWithTitle] = await this.scraping(url);
+    const result = await this.scraping(url);
+    if (!result) throw new Error("Not found");
+
+    const [bookAttribute, authorWithTitle] = result;
 
     return this.transform(bookAttribute, authorWithTitle);
   }
@@ -20,21 +23,25 @@ export class PuppeteerParser implements Parser {
    * Do scaping
    * @param url
    */
-  private async scraping(url: string): Promise<[string, string]> {
-    const browser = await launch({
-      executablePath: "/usr/local/bin/chromium",
-    });
+  private async scraping(url: string): Promise<[string, string] | undefined> {
+    const browser = await launch({ executablePath: "/usr/local/bin/chromium" });
 
     const page = await browser.newPage();
-    await page.goto(url);
+    try {
+      await page.goto(url);
 
-    const bookAttribute = await page.$eval("#front .shelf-item", (e) => e.id);
-    const authorWithTitle = await page.$eval(".item-area-img", (e) =>
-      e.getAttribute("title")
-    );
+      const bookAttribute = await page.$eval("#front .shelf-item", (e) => e.id);
+      const authorWithTitle = await page.$eval(".item-area-img", (e) =>
+        e.getAttribute("title")
+      );
 
-    if (!authorWithTitle) throw new Error("Not found");
-    return [bookAttribute, authorWithTitle];
+      if (!authorWithTitle) throw new Error("Not found");
+      return [bookAttribute, authorWithTitle];
+    } catch (error) {
+      console.error(error);
+    } finally {
+      browser.close();
+    }
   }
 
   /**
@@ -49,6 +56,6 @@ export class PuppeteerParser implements Parser {
 
     if (!id || !author || !title) throw new Error("Not found");
 
-    return new Book(id, author, title);
+    return new Book(id, title, author);
   }
 }
