@@ -27,7 +27,7 @@ export class Gist implements Publisher {
         files: {
           [filename]: {
             filename: "Recently read 📚",
-            content: `Book  : ${book.title} \nAuthor: ${book.author}`,
+            content: `${book.title} \n${book.author}`,
           },
         },
       });
