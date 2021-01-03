@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master
-      - feature/ci-error
   schedule:
     - cron: "0 0 * * *"
 jobs:
@@ -35,4 +34,3 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GIST_ID: ${{ secrets.GIST_ID }}
           BOOKLOG_USER_ID: ${{ secrets.BOOKLOG_USER_ID }} 
-          TIMEZONE: Asia/Tokyo
